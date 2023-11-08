@@ -1,6 +1,6 @@
 ---
 title: Homework 7 - Creating a resume database
-author: (your name goes here!)
+author: Nana Kofi Okae
 date: last-modified
 format:
     html:
@@ -10,11 +10,11 @@ format:
         code-copy: true
 ---
 
-(include a brief description of what is in this document)
+**(include a brief description of what is in this document)**
 
-(Please clean up any comments that I included.  This is a scaffold document.)
+**(Please clean up any comments that I included.  This is a scaffold document.)**
 
-GITHUB URL:  <your URL goes here!>
+GITHUB URL: [Github](https://github.com/cmsc-vcu/cmsc508-fa2023-hw7-Nan3rOkae)
 
 ```{python}
 #| eval: true
@@ -34,10 +34,10 @@ from IPython.display import display, Markdown
 
 # modify config_map to reflect credentials needed by this program
 config_map = {
-    'user':'CMSC508_USER',
-    'password':'CMSC508_PASSWORD',
-    'host':'CMSC508_HOST',
-    'database':'HW7_DB_NAME'
+   'user':"CMSC508_USER",
+  'password':"CMSC508_PASSWORD",
+  'host':"CMSC508_HOST",
+  'database':"HW7_DB_NAME"
 }
 # load and store credentials
 load_dotenv()
