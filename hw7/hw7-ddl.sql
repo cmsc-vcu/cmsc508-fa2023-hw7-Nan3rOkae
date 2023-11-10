@@ -20,6 +20,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS people;
 DROP TABLE IF EXISTS skills;
 DROP TABLE IF EXISTS peopleskills;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS peopleroles;
 # ... 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -33,7 +35,7 @@ SET FOREIGN_KEY_CHECKS=1;
 CREATE TABLE skills (
   skills_id INT AUTO_INCREMENT PRIMARY KEY,
   skills_name VARCHAR(255) NOT NULL,
-  skills_description VARCHAR(255) NOT NULL,
+  skills_description VARCHAR(255) NOT NULL DEFAULT'(default description)',
   skills_tag VARCHAR(255) NOT NULL,
   skills_url VARCHAR(255) DEFAULT NULL,
   time_commitment VARCHAR(255) DEFAULT NULL
@@ -47,16 +49,16 @@ SHOW TABLES;
 # Populates the skills table with eight skills, their tag fields must exactly contain “Skill 1”, “Skill 2”, etc.
 # You can assign skill names.  Please be creative!
 
-INSERT INTO skills (skills_id, skills_name, skills_description, skills_tag)
+INSERT INTO skills (skills_id, skills_name, skills_tag)
 VALUES
-  (1,'Cryptocurrency Analysis', 'Understanding and predicting cryptocurrency market trends.', 'Skill 1'),
-  (2,'Advanced Baking Techniques', 'Mastering the art of baking with advanced recipes and presentation.', 'Skill 2'),
-  (3,'AI Development', 'Designing and building artificial intelligence systems.', 'Skill 3'),
-  (4,'Quantum Computing Basics', 'Learning the principles of quantum computation.', 'Skill 4'),
-  (5,'Space Gardening', 'Cultivating plants in space or extraterrestrial environments.', 'Skill 5'),
-  (6,'Underwater Photography', 'Taking high-quality photographs beneath the surface of the water.', 'Skill 6'),
-  (7,'Extreme Weather Forecasting', 'Predicting severe weather patterns and natural disasters.', 'Skill 7'),
-  (8,'Virtual Reality Game Design', 'Creating immersive virtual reality experiences for gaming.', 'Skill 8');
+  (1,'Cryptocurrency Scamming', 'Skill 1'),
+  (2,'Paint Drying surveillance', 'Skill 2'),
+  (3,'Underwater Basket Weaving', 'Skill 3'),
+  (4,'Armadillo Whisperer',  'Skill 4'),
+  (5,'Space Gardening',  'Skill 5'),
+  (6,'Chihuahua  Photography','Skill 6'),
+  (7,'Extreme Weather Forecasting', 'Skill 7'),
+  (8,'Software Development', 'Skill 8');
 
 SELECT * FROM skills;
 
@@ -75,27 +77,27 @@ CREATE TABLE people (
   people_headshot_url VARCHAR(255) DEFAULT NULL,
   people_discord_handle VARCHAR(255) DEFAULT NULL,
   people_brief_bio TEXT DEFAULT NULL,
-  people_date_joined DATE NOT NULL
+  people_date_joined DATE NOT NULL DEFAULT(current_date)
 );
 
 
 # Section 5
-# Populate people with six people.
+# Populate people with 10 people.
 # Their last names must exactly be “Person 1”, “Person 2”, etc.
 # Other fields are for you to assign.
 
-INSERT INTO people (people_id, people_first_name, people_last_name, people_email, people_linkedin_url, people_headshot_url, people_discord_handle, people_brief_bio, people_date_joined)
+INSERT INTO people (people_id,people_last_name)
 VALUES
-  (1,'Kofi', 'Okae', 'kofi1@example.com', 'http://linkedin.com/in/kofi1', 'http://example.com/headshots/kofi1.jpg', 'Kofi#001', 'A software developer specializing in AI technologies.', '2021-06-01'),
-  (2,'Afua', 'Afriyie', 'afua2@example.com', 'http://linkedin.com/in/afua2', 'http://example.com/headshots/afua2.jpg', 'Afua#002', 'An expert in renewable energy and sustainable development.', '2022-01-15'),
-  (3,'Osei', 'Kwabena', 'osei3@example.com', 'http://linkedin.com/in/osei3', 'http://example.com/headshots/osei3.jpg', 'Osei#003', 'A financial analyst with a keen eye for stock market trends.', '2020-09-23'),
-  (4,'Mansah', 'Odu', 'mansah4@example.com', 'http://linkedin.com/in/mansah4', 'http://example.com/headshots/mansah4.jpg', 'Mansah#004', 'A digital marketer with a passion for brand storytelling.', '2021-03-11'),
-  (5,'Abena', 'Ansah', 'abena5@example.com', 'http://linkedin.com/in/abena5', 'http://example.com/headshots/abena5.jpg', 'Abena#005', 'An architect who combines sustainability with innovation.', '2022-05-19'),
-  (6,'Shyy', 'Davis', 'shyy6@example.com', 'http://linkedin.com/in/shyy6', 'http://example.com/headshots/shyy6.jpg', 'Shyy#006', 'A journalist focusing on international politics.', '2021-11-30'),
-  (7, 'Ama', 'Serwaa', 'ama7@example.com', 'http://linkedin.com/in/ama7', 'http://example.com/headshots/ama7.jpg', 'Ama#007', 'A graphic designer who brings concepts to life through visuals.', '2023-02-10'),
-  (8, 'Kwame', 'Mensah', 'kwame8@example.com', 'http://linkedin.com/in/kwame8', 'http://example.com/headshots/kwame8.jpg', 'Kwame#008', 'A civil engineer with a focus on urban redevelopment projects.', '2023-04-22'),
-  (9, 'Kwesi', 'Antwi', 'kwesi9@example.com', 'http://linkedin.com/in/kwesi9', 'http://example.com/headshots/kwesi9.jpg', 'Kwesi#009', 'A data scientist passionate about machine learning and data-driven decision making.', '2023-07-15'),
-  (10, 'Akua', 'Boateng', 'akua10@example.com', 'http://linkedin.com/in/akua10', 'http://example.com/headshots/akua10.jpg', 'Akua#010', 'An entrepreneur with innovative approaches to technology and business.', '2023-08-05');
+  (1, 'Person 1'),
+  (2,'Person 2'),
+  (3,'Person 3'),
+  (4, 'Person 4'),
+  (5, 'Person 5'),
+  (6,'Person 6'),
+  (7,'Person 7'),
+  (8, 'Person 8'),
+  (9, 'Person 9'),
+  (10,'Person 10');
 
 SELECT * FROM people;
 
@@ -107,9 +109,10 @@ CREATE TABLE peopleskills (
   peopleskills_id INT AUTO_INCREMENT PRIMARY KEY,
   skills_id INT NOT NULL,
   people_id INT NOT NULL,
-  peopleskills_date_acquired DATE NOT NULL,
+  peopleskills_date_acquired DATE NOT NULL DEFAULT(current_date),
   FOREIGN KEY (skills_id) REFERENCES skills(skills_id),
-  FOREIGN KEY (people_id) REFERENCES people(people_id)
+  FOREIGN KEY (people_id) REFERENCES people(people_id),
+  UNIQUE (skills_id, people_id)
 );
 
 
@@ -127,43 +130,44 @@ CREATE TABLE peopleskills (
 # Person 10 has skills 1,4,5;
 # Note that no one has yet acquired skills 7 and 8.
 
-INSERT INTO peopleskills (skills_id, people_id, peopleskills_date_acquired) VALUES
-  (1, 1, '2023-11-07'),
-  (3, 1, '2023-11-07'),
-  (6, 1, '2023-11-07'),
+INSERT INTO peopleskills (skills_id, people_id) VALUES
+  (1, 1),
+  (3, 1),
+  (6, 1),
   
-  (3, 2, '2023-11-07'),
-  (4, 2, '2023-11-07'),
-  (5, 2, '2023-11-07'),
+  (3, 2),
+  (4, 2),
+  (5, 2),
   
-  (1, 3, '2023-11-07'),
-  (5, 3, '2023-11-07'),
-  -- Person 4 has no skills
-  (3, 5, '2023-11-07'),
-  (6, 5, '2023-11-07'),
+  (1, 3),
+  (5, 3),
+
+  (3, 5),
+  (6, 5),
   
-  (2, 6, '2023-11-07'),
-  (3, 6, '2023-11-07'),
-  (4, 6, '2023-11-07'),
+  (2, 6),
+  (3, 6),
+  (4, 6),
   
-  (3, 7, '2023-11-07'),
-  (5, 7, '2023-11-07'),
-  (6, 7, '2023-11-07'),
+  (3, 7),
+  (5, 7),
+  (6, 7),
   
-  (1, 8, '2023-11-07'),
-  (3, 8, '2023-11-07'),
-  (5, 8, '2023-11-07'),
-  (6, 8, '2023-11-07'),
+  (1, 8),
+  (3, 8),
+  (5, 8),
+  (6, 8),
   
-  (2, 9, '2023-11-07'),
-  (5, 9, '2023-11-07'),
-  (6, 9, '2023-11-07'),
+  (2, 9),
+  (5, 9),
+  (6, 9),
   
-  (1, 10, '2023-11-07'),
-  (4, 10, '2023-11-07'),
-  (5, 10, '2023-11-07');
+  (1, 10),
+  (4, 10),
+  (5, 10);
 
  SELECT * FROM peopleskills;
+
 
 # Section 8
 # Create roles( id, name, sort_priority )
@@ -182,11 +186,30 @@ CREATE TABLE roles (
 # Designer, Developer, Recruit, Team Lead, Boss, Mentor
 # Sort priority is assigned numerically in the order listed above (Designer=10, Developer=20, Recruit=30, etc.)
 
+INSERT INTO roles (roles_name, roles_sort_priority) VALUES
+('Designer', 10),
+('Developer', 20),
+('Recruit', 30),
+('Team Lead', 40),
+('Boss', 50),
+('Mentor', 60);
+
+SELECT * FROM roles;
+
 
 
 # Section 10
 # Create peopleroles( id, people_id, role_id, date_assigned )
 # None of the fields can be null.  ID can be auto_increment
+
+CREATE TABLE peopleroles (
+  people_roles_id INT AUTO_INCREMENT PRIMARY KEY,
+  people_id INT NOT NULL,
+  role_id INT NOT NULL,
+  date_assigned DATE NOT NULL DEFAULT(current_date),
+  FOREIGN KEY (people_id) REFERENCES people(people_id),
+  FOREIGN KEY (role_id) REFERENCES roles(roles_id)
+);
 
 
 
@@ -202,4 +225,24 @@ CREATE TABLE roles (
 # Person 8 is Designer and Team Lead
 # Person 9 is Developer
 # Person 10 is Developer and Designer
+
+INSERT INTO peopleroles (people_roles_id,people_id, role_id) VALUES
+(1,1, 2),
+(2,2, 5),
+(3,2, 6),
+(4,3, 2),
+(5,3, 4),
+(6,4, 3),
+(7,5, 3),
+(8,6, 2),
+(9,6, 1),
+(10,7, 1),
+(11,8, 1),
+(12,8, 4),
+(13,9, 2),
+(14,10, 2),
+(15,10, 1);
+
+SELECT * FROM peopleroles;
+
 
